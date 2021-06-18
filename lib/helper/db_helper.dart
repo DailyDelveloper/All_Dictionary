@@ -17,7 +17,7 @@ class DictionaryDBHelper {
 
     if (!dbExistsEnglish) {
       ByteData data =
-          await rootBundle.load(path.join("assets", "eng_dictionary.db"));
+          await rootBundle.load(path.join("assets/db", "Dictionary.db"));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
@@ -25,23 +25,21 @@ class DictionaryDBHelper {
     }
 
     this._db = await openDatabase(dbPathEnglish);
+    
   }
 
-  Future<List<DictionaryModel>> getAllTheWordsEnglish() async{
-    if(_db==null){
+  Future<List<DictionaryModel>> getAllTheWordsEnglish() async {
+    if (_db == null) {
       throw "db is not initiated, initiate using [init(db)] function";
     }
     List<Map> words;
-    await _db.transaction((txn) async{
-      words = await txn.query(
-        "words",
-        columns:[
-          "word",
-          "wordtype",
-          "definition",]
-      );
+    await _db.transaction((txn) async {
+      words = await txn.query("entries", columns: [
+        "word",
+        "wordtype",
+        "definition",
+      ]);
     });
-    return words.map((e) => DictionaryModel.fromJson(e)).toList(); 
+    return words.map((e) => DictionaryModel.fromJson(e)).toList();
   }
-  
 }

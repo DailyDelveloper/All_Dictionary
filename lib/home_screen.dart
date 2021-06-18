@@ -4,6 +4,7 @@ class HomeScreen extends StatelessWidget {
   List<String> entries = ['A', 'B', 'C'];
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -24,6 +25,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             ListView.builder(
               padding: EdgeInsets.all(10.0),
+              shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: entries.length,
               itemBuilder: (context, int index) {
